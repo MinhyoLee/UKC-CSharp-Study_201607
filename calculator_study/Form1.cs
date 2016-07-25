@@ -27,6 +27,7 @@ namespace calculator_study
         bool calTyped = false;
         bool numberProcessing = true;
         string now_cal = "";
+        double memory_number = 0;
 
         private double calTypeChecker(string type, double first, double second)
         {
@@ -76,12 +77,30 @@ namespace calculator_study
 
             if (numberProcessing)
             {
-                resultTextBox.Text += checker.Text;
+                if (checker.Text.Equals("MRC"))
+                {
+                    resultTextBox.Clear();
+                    resultTextBox.Text += memoryTextBox.Text;
+                }
+                else
+                {
+                    resultTextBox.Text += checker.Text;
+                }
+             
             }
             else
             {
-                resultTextBox.Clear();
-                resultTextBox.Text += checker.Text;
+                if (checker.Text.Equals("MRC"))
+                {
+                    resultTextBox.Clear();
+                    resultTextBox.Text += memoryTextBox.Text;
+                }
+                else
+                {
+                    resultTextBox.Clear();
+                    resultTextBox.Text += checker.Text;
+                }
+              
                 numberProcessing = true;
             }
           
@@ -247,6 +266,8 @@ namespace calculator_study
             resultTextBox.Clear();
             numberBin.Clear();
             processTextBox.Clear();
+            memoryTextBox.Clear();
+            memory_number = 0;
             resultTextBox.Text = "0";
         }
 
@@ -268,6 +289,49 @@ namespace calculator_study
                 }
             }
          
+        }
+
+        private void button21_Click(object sender, EventArgs e)
+        {
+            // memory +
+            double temp = double.Parse(resultTextBox.Text);
+            
+            if(memory_number != 0)
+            {
+                memory_number += temp;
+            }
+            else
+            {
+                memory_number = temp;
+            }
+
+            memoryTextBox.Text = memory_number.ToString("G");
+
+        }
+
+        private void button22_Click(object sender, EventArgs e)
+        {
+            // memory -
+            double temp = double.Parse(resultTextBox.Text);
+            memory_number -= temp;
+            memoryTextBox.Text = memory_number.ToString("G");
+
+        }
+
+        private void button23_Click(object sender, EventArgs e)
+        {
+            // memory recall
+            if (!memoryTextBox.Text.Equals(""))
+            {
+                numberType(sender);
+            }          
+        }
+
+        private void button24_Click(object sender, EventArgs e)
+        {
+            // memory clear
+            memoryTextBox.Clear();
+            memory_number = 0;
         }
     }
 }
