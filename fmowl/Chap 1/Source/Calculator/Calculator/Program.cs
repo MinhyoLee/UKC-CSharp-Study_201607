@@ -85,6 +85,7 @@ namespace Calculator
                 }
                 else
                 {
+                    convExp += " ";
                     switch (tok)
                     {
                         case '(':
@@ -105,8 +106,9 @@ namespace Calculator
                         case '*': case '/':
                             while (stack.Count != 0 && whoPreOp(stack.Peek(), tok) >= 0)
                             {
-                                convExp += " ";
+                                
                                 convExp += stack.Pop().ToString();
+                                convExp += " ";
                             }
                             stack.Push(tok);
                             break;
