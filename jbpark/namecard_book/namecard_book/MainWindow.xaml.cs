@@ -22,10 +22,15 @@ namespace namecard_book
     public partial class MainWindow : Window
     {
         string filePath = AppDomain.CurrentDomain.BaseDirectory;
+        // 저장 파일
         string fileName = "book.txt";
+        // 리스트1 (전체 데이터)
         List<DataBin> peopleList = new List<DataBin>();
+        // 리스트2 (검색 데이터)
         List<DataBin> search_data = new List<DataBin>();
+        // 검색 데이터 판단 여부
         bool searching = false;
+        // loading 데이터 temp bin
         DataBin loaded_data = new DataBin();
 
         public MainWindow()
@@ -34,11 +39,13 @@ namespace namecard_book
 
             if(!File.Exists(filePath + fileName))
             {
+                // 저장된 파일이 없으면 생성
                 File.WriteAllText(filePath + fileName, "");
                 result_TextBlock.Text = "저장된 데이터가 없습니다!";
             }
             else
             {
+                // 저장된 파일 로드
                 LoadData();
             }
 
@@ -51,6 +58,7 @@ namespace namecard_book
             while ((line = sr.ReadLine()) != null)
             {
                 string check = line;
+                // '/' 를 구분 기호로 하여 데이터 로드 후 tempList에 넣기
                 List<string> tempList = check.Split('/').ToList();
 
                 DataBin item = new DataBin();
@@ -59,6 +67,7 @@ namespace namecard_book
 
                 foreach(string each in tempList)
                 {
+                    // 순서대로 집어 넣기
                     if (index == 0) item.Id = each;
                     if (index == 1) item.Name = each;
                     if (index == 2) item.Position = each;
@@ -70,9 +79,11 @@ namespace namecard_book
                     index++;
                 }
 
+                // 한 줄에 한 데이터이므로 people리스트에 넣어 줌
                 peopleList.Add(item);
 
-            }                  
+            }
+            // people_ListView Binding                  
             people_ListView.ItemsSource = peopleList;
 
         }
@@ -118,9 +129,13 @@ namespace namecard_book
 
         private void modify_button_click(object sender, RoutedEventArgs e)
         {
+            // 입력 및 수정 업데이트 
+
             if(loaded_data.Id == null)
             {
                 // 최초 입력
+                // loaded_data.Id 가 없다면..
+                
                 DataBin item = new DataBin();
                 item.Name = name_TextBox.Text;
                 item.Position = position_TextBox.Text;
@@ -157,6 +172,7 @@ namespace namecard_book
             else
             {
                 // 실제 자료
+                // 수정하여 업데이트
                 bool check_message = alertMessage();
 
                 if (!check_message)
@@ -190,6 +206,8 @@ namespace namecard_book
                check += item.Id+"/"+item.Name + "/" + item.Position + "/" + item.Tel + "/" + item.Address + "/" + item.Company + "/" + item.EMail + Environment.NewLine;
 
             }
+
+            // 저장해 줌. 실제로는 Write보다 Append를 쓰고, 삭제시에는 Id 값을 찾아서 삭제하는 것이 더 바람직할 듯
 
             File.WriteAllText(filePath + fileName, check);
 
@@ -227,6 +245,9 @@ namespace namecard_book
 
             string check = "";
 
+            // 자료를 삭제할 때마다 매번 id 값을 새로 부여해 줌.
+            // List에 들어간 크기보다 +1로 id 값을 부여하면 나중에 숫자가 겹치게 됨.
+            // 실제로는 Random 등을 사용해서 Id값을 부여해 주는 것이 더 바람직할 듯.
             int id = 1;
 
             foreach (DataBin item in peopleList)
@@ -250,11 +271,17 @@ namespace namecard_book
 
         void listing()
         {
+            // 서치를 했을 때와, 아닐 때 리스트뷰 바인딩의 소스가 달라야 하므로..
+
             if (searching)
             {
+                // 검색 중이라면..
+
                 search_data.Clear();
 
                 string search_text = search_TextBox.Text;
+
+                // 검색창에 있는 단어 중 하나라도 포함하면 보여 줌
 
                 foreach (DataBin item in peopleList)
                 {
@@ -274,6 +301,8 @@ namespace namecard_book
             }
             else
             {
+                // 검색 중이 아니라면 원본 리스트뷰를 보여줌..
+
                 people_ListView.ItemsSource = null;
                 people_ListView.ItemsSource = peopleList;
             }
@@ -281,6 +310,8 @@ namespace namecard_book
 
         private void search_Button_clicked(object sender, RoutedEventArgs e)
         {
+            // 서치 버튼을 클릭했을 때
+
             string type = ((Button)sender).Content.ToString();
 
             if (type.Contains("검색"))
@@ -319,6 +350,8 @@ namespace namecard_book
 
         private void item_selected(object sender, MouseButtonEventArgs e)
         {
+            // 리스트뷰 아이템 로드
+
             ListViewItem check = (ListViewItem)sender;
 
             DataBin selectedItem = (DataBin)check.DataContext;
