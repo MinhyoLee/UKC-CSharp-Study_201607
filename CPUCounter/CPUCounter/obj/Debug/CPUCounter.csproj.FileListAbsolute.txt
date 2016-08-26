@@ -1,0 +1,9 @@
+C:\C# 스터디\CPUCounter\CPUCounter\bin\Debug\CPUCounter.exe.config
+C:\C# 스터디\CPUCounter\CPUCounter\bin\Debug\CPUCounter.exe
+C:\C# 스터디\CPUCounter\CPUCounter\bin\Debug\CPUCounter.pdb
+C:\C# 스터디\CPUCounter\CPUCounter\obj\Debug\CPUCounter.csprojResolveAssemblyReference.cache
+C:\C# 스터디\CPUCounter\CPUCounter\obj\Debug\CPUCounter.Form1.resources
+C:\C# 스터디\CPUCounter\CPUCounter\obj\Debug\CPUCounter.Properties.Resources.resources
+C:\C# 스터디\CPUCounter\CPUCounter\obj\Debug\CPUCounter.csproj.GenerateResource.Cache
+C:\C# 스터디\CPUCounter\CPUCounter\obj\Debug\CPUCounter.exe
+C:\C# 스터디\CPUCounter\CPUCounter\obj\Debug\CPUCounter.pdb
